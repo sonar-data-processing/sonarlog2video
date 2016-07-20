@@ -6,6 +6,7 @@ include ( "${WORKSPACE_DIR}/base/cmake/Dependencies.cmake"  )
 add_project_dependency (base       ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 add_project_dependency (sonar_util ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 add_project_dependency (rock_util  ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+setup_headers ( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src" )
 
 include ( FindPkgConfig  )
 
