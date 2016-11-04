@@ -31,7 +31,7 @@ private:
     
     bool next_sonar_sample(base::samples::Sonar& sample);
 
-    const std::string& output_file_path_;
+    std::string output_file_path_;
     int frame_width_;
     int frame_height_;
     
