@@ -1,34 +1,32 @@
 cmake_minimum_required (VERSION 2.6)
 project (sonarlog2video)
 
-include ( "${WORKSPACE_DIR}/base/cmake/Dependencies.cmake"  )
+list(APPEND CMAKE_MODULE_PATH $ENV{SONAR_TOOLKIT_PREFIX}/base/cmake)
+list(APPEND CMAKE_MODULE_PATH $ENV{SONAR_TOOLKIT_PREFIX}/sonar_util/cmake)
+list(APPEND CMAKE_MODULE_PATH $ENV{SONAR_TOOLKIT_PREFIX}/rock_util/cmake)
 
-add_project_dependency (base       ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-add_project_dependency (sonar_util ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-add_project_dependency (rock_util  ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-setup_headers ( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src" )
-
-include ( FindPkgConfig  )
+include ( FindPkgConfig )
+include ( FindRock )
 
 find_package ( Boost COMPONENTS system filesystem program_options REQUIRED )
 find_package ( Eigen3 REQUIRED )
 find_package ( OpenCV REQUIRED )
 
 pkg_check_modules(pocolog_cpp pocolog_cpp)
-
+ 
 file ( GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp )
+file ( GLOB HEADERS ${PROJECT_SOURCE_DIR}/src/*.hpp )
 
 include_directories (
-    ${PROJECT_SOURCE_DIR}/include
-    ${base_INCLUDE_DIR}
-    ${rock_util_INCLUDE_DIR}
-    ${sonar_util_INCLUDE_DIR}
     ${ROCK_ROBOTICS_INCLUDE_DIR}
     ${EIGEN3_INCLUDE_DIR}
+    ${PROJECT_SOURCE_DIR}/src
+    ${CMAKE_INSTALL_PREFIX}/include/sonar_toolkit
 )
 
 link_directories (
     ${ROCK_ROBOTICS_LIBRARY_DIR}
+    ${CMAKE_INSTALL_PREFIX}/lib/sonar_toolkit
 )
 
 add_executable (
@@ -39,7 +37,18 @@ add_executable (
 target_link_libraries (
     sonarlog2video
     rock_util
+    sonar_util
     ${Boost_LIBRARIES}
     ${pocolog_cpp_LIBRARIES}
     ${OpenCV_LIBS}
+)
+
+install(
+    FILES ${HEADERS}
+    DESTINATION include/sonar_toolkit/${PROJECT_NAME}
+)
+
+install(TARGETS
+    sonarlog2video
+    DESTINATION bin
 )

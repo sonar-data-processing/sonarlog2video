@@ -2,10 +2,10 @@
 #include <vector>
 #include <ctime>
 #include <base/Time.hpp>
-#include "sonarlog2video/VideoConverter.hpp"
-#include "rock_util/SonarSampleConverter.hpp"
-#include "rock_util/SonarInfo.hpp"
-#include "base/MathUtil.hpp"
+#include <rock_util/SonarSampleConverter.hpp>
+#include <rock_util/SonarInfo.hpp>
+#include <base/MathUtil.hpp>
+#include "VideoConverter.hpp"
 
 using namespace base;
 using namespace sonar_util;

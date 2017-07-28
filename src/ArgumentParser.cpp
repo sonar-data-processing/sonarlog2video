@@ -2,7 +2,7 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
-#include "sonarlog2video/ArgumentParser.hpp"
+#include "ArgumentParser.hpp"
 
 using namespace boost;
 

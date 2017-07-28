@@ -1,6 +1,6 @@
 #include <iostream>
-#include "sonarlog2video/ArgumentParser.hpp"
-#include "sonarlog2video/VideoConverter.hpp"
+#include "ArgumentParser.hpp"
+#include "VideoConverter.hpp"
 
 using namespace sonarlog2video;
 

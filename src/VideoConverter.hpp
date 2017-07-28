@@ -5,8 +5,7 @@
 #include <base/samples/SonarScan.hpp>
 #include <base/samples/Sonar.hpp>
 #include <opencv2/opencv.hpp>
-
-#include "rock_util/LogReader.hpp"
+#include <rock_util/LogReader.hpp>
 
 namespace sonarlog2video {
 
