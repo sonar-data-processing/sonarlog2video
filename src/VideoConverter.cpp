@@ -4,7 +4,7 @@
 #include <base/Time.hpp>
 #include <rock_util/SonarSampleConverter.hpp>
 #include <rock_util/SonarInfo.hpp>
-#include <base/MathUtil.hpp>
+#include <sonar_processing/MathUtil.hpp>
 #include "VideoConverter.hpp"
 
 using namespace base;
@@ -14,8 +14,8 @@ using namespace rock_util;
 namespace sonarlog2video {
 
 VideoConverter::VideoConverter(
-    const std::string& input_file_path, 
-    const std::string& output_file_path, 
+    const std::string& input_file_path,
+    const std::string& output_file_path,
     const std::string& stream_name,
     int frame_width,
     int frame_height)
@@ -29,11 +29,11 @@ VideoConverter::VideoConverter(
 
 void VideoConverter::convert() {
     try {
-        
+
         stream_.reset();
 
         std::vector<int> beam_mapping;
-        
+
         base::samples::Sonar last_sample;
         base::samples::Sonar sample;
 
@@ -55,7 +55,7 @@ void VideoConverter::convert() {
             sonar_polar_image = SonarSampleConverter::convert2polar(sample, frame_size.width, frame_size.height, beam_mapping, color_palletes::HEATMAP_PALLETE);
             last_sample = sample;
             output_video << sonar_polar_image;
-    
+
             while (stream_.current_sample_index() < stream_.total_samples()) {
                 if (next_sonar_sample(sample)) {
 
@@ -69,11 +69,11 @@ void VideoConverter::convert() {
                 }
 
                 printf("[%3d%%] Processing frame %ld of %ld\n",
-                    MathUtil::percentage(stream_.current_sample_index()+1, stream_.total_samples()), 
+                    MathUtil::percentage(stream_.current_sample_index()+1, stream_.total_samples()),
                     stream_.current_sample_index()+1, stream_.total_samples());
             }
         }
-        
+
     } catch (...) {
         throw;
     }
@@ -96,15 +96,15 @@ bool VideoConverter::compare_sonar_data(const base::samples::Sonar& sonar0, cons
 cv::Size VideoConverter::get_frame_size(const base::samples::Sonar& sample) {
     cv::Size frame_size;
 
-    frame_size.height = (frame_height_ > 0) 
-                            ? frame_height_ 
+    frame_size.height = (frame_height_ > 0)
+                            ? frame_height_
                             : DEFAULT_IMAGE_HEIGHT;
 
     frame_size.width  = (frame_width_ > 0)
-                            ? frame_width_ 
+                            ? frame_width_
                             : MathUtil::aspect_ratio_width(sample.bearings[sample.bearings.size()-1].rad, frame_size.height);
 
-    return frame_size;    
+    return frame_size;
 }
 
 
